@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaturaNest - Download All Files</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .instructions {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 8px 0;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .progress {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: none;
+        }
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .file-list {
+            max-height: 300px;
+            overflow-y: auto;
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .essential {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        .docs {
+            color: #95a5a6;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌿 NaturaNest Download Helper</h1>
+        <p class="subtitle">Download your complete project with proper folder structure</p>
+
+        <div class="instructions">
+            <h3>📋 How to Use:</h3>
+            <ol>
+                <li>Click the "Download Essential Files Only" button for just the code files (recommended for quick start)</li>
+                <li>Or click "Download All Files" to get everything including documentation</li>
+                <li>Extract the ZIP file to your desired location</li>
+                <li>Run <code>npm install</code> in the extracted folder</li>
+                <li>Run <code>npm run dev</code> to start development</li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            ⚠️ <strong>Note:</strong> This page needs to fetch files from the Figma Make code viewer. If downloads fail, you may need to copy this HTML file content and open it locally, or download files manually.
+        </div>
+
+        <button onclick="downloadEssential()" id="essentialBtn">
+            📦 Download Essential Files Only (~50 files)
+        </button>
+        
+        <button onclick="downloadAll()" id="allBtn">
+            📚 Download All Files Including Documentation (~90 files)
+        </button>
+
+        <div class="progress" id="progress">
+            <div id="progressText">Preparing download...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="file-list">
+            <strong>Essential Files (Code):</strong><br>
+            <span class="essential">✓ App.tsx</span><br>
+            <span class="essential">✓ package.json</span><br>
+            <span class="essential">✓ vercel.json</span><br>
+            <span class="essential">✓ /components/*.tsx</span><br>
+            <span class="essential">✓ /data/*</span><br>
+            <span class="essential">✓ /services/*</span><br>
+            <span class="essential">✓ /styles/*</span><br>
+            <br>
+            <strong>Documentation Files:</strong><br>
+            <span class="docs">○ All .md files (guides & docs)</span><br>
+            <span class="docs">○ Deployment scripts</span><br>
+        </div>
+    </div>
+
+    <script>
+        // This is a placeholder - you'll need to manually copy file contents
+        // Since we can't automatically fetch from Figma Make's file system
+        
+        const essentialFiles = {
+            'App.tsx': `// PASTE APP.TSX CONTENT HERE`,
+            'package.json': `// PASTE PACKAGE.JSON CONTENT HERE`,
+            'vercel.json': `// PASTE VERCEL.JSON CONTENT HERE`,
+            // Add more essential files
+        };
+
+        const allFiles = {
+            ...essentialFiles,
+            // Add documentation files
+        };
+
+        async function downloadEssential() {
+            alert('Manual Method Required:\n\n1. Download files one by one from Figma Make\n2. Recreate the folder structure locally\n3. Or see the ESSENTIAL-FILES.md I will create for a prioritized download list');
+        }
+
+        async function downloadAll() {
+            alert('Manual Method Required:\n\nSince this is the free version of Figma Make, please:\n1. Use the ESSENTIAL-FILES.md guide to prioritize\n2. Download files one by one\n3. Or upgrade to access export features');
+        }
+    </script>
+</body>
+</html>
